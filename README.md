@@ -1,4 +1,4 @@
-# skill_assessment
+# ai_skill_assessment
 
 A new Flutter project.
 

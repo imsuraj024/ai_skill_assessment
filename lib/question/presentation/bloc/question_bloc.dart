@@ -3,9 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:skill_assessment/prompts.dart';
-import 'package:skill_assessment/question/data/model/question_model.dart';
-import 'package:skill_assessment/question/domain/usecase/question_usecase.dart';
+import 'package:ai_skill_assessment/prompts.dart';
+import 'package:ai_skill_assessment/question/data/model/question_model.dart';
+import 'package:ai_skill_assessment/question/domain/usecase/question_usecase.dart';
 import 'package:toastification/toastification.dart';
 
 part 'question_event.dart';

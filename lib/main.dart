@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:skill_assessment/question/presentation/question_screen.dart';
-import 'package:skill_assessment/service_locator.dart';
-import 'package:skill_assessment/styles/app_colors.dart';
+import 'package:ai_skill_assessment/question/presentation/question_screen.dart';
+import 'package:ai_skill_assessment/service_locator.dart';
+import 'package:ai_skill_assessment/styles/app_colors.dart';
 import 'package:toastification/toastification.dart';
 
 void main() {

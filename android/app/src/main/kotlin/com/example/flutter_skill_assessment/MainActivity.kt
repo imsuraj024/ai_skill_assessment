@@ -1,4 +1,4 @@
-package com.example.skill_assessment
+package com.example.ai_skill_assessment
 
 import io.flutter.embedding.android.FlutterActivity
 

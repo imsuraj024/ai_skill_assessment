@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skill_assessment/styles/app_colors.dart';
+import 'package:ai_skill_assessment/styles/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class QuestionLoading extends StatelessWidget {

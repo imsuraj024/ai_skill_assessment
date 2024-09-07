@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "skill_assessment" "\0"
+            VALUE "FileDescription", "ai_skill_assessment" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "skill_assessment" "\0"
+            VALUE "InternalName", "ai_skill_assessment" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "skill_assessment.exe" "\0"
-            VALUE "ProductName", "skill_assessment" "\0"
+            VALUE "OriginalFilename", "ai_skill_assessment.exe" "\0"
+            VALUE "ProductName", "ai_skill_assessment" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:skill_assessment/constant.dart';
-import 'package:skill_assessment/dio_client.dart';
-import 'package:skill_assessment/question/data/model/question_model.dart';
-import 'package:skill_assessment/question/domain/repository/question_repo.dart';
+import 'package:ai_skill_assessment/constant.dart';
+import 'package:ai_skill_assessment/dio_client.dart';
+import 'package:ai_skill_assessment/question/data/model/question_model.dart';
+import 'package:ai_skill_assessment/question/domain/repository/question_repo.dart';
 
 class QuestionRepoImpl implements QuestionRepo {
   final DioClient dio;
