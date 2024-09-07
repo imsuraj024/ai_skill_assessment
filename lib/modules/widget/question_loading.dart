@@ -13,39 +13,34 @@ class QuestionLoading extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: appBlack,
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 50.0,
+                  height: 30.0,
+                  color: appWhite,
                 ),
-              ),
-              Text(
-                '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: appBlack,
+                Container(
+                  width: 50.0,
+                  height: 30.0,
+                  color: appWhite,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const Divider(),
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-            child: Text(
-              '',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: appBlack,
-              ),
+            child: Container(
+              width: double.infinity,
+              height: 80.0,
+              color: appWhite,
             ),
           ),
           ...List.generate(
@@ -64,7 +59,11 @@ class AnswerLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RadioListTile<int>(
-      title: const Text(''),
+      title: Container(
+        width: double.infinity,
+        height: 30.0,
+        color: appWhite,
+      ),
       value: 0,
       groupValue: 1,
       onChanged: (int? value) {},
