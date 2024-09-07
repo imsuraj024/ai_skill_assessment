@@ -1,1 +1,1 @@
-String get splashLoader => 'assets/splash/splash.json';
+String get splashLoader => 'assets/splash/splash.riv';

@@ -13,13 +13,41 @@ class QuestionLoading extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            height: 100.0,
-            color: appWhite,
-            margin: const EdgeInsets.all(20.0),
+          Row(
+            children: [
+              Text(
+                '',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: appBlack,
+                ),
+              ),
+              Text(
+                '',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: appBlack,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 20.0),
+          const Divider(),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
+            child: Text(
+              '',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: appBlack,
+              ),
+            ),
+          ),
           ...List.generate(
             4,
             (index) => const AnswerLoading(),
@@ -35,25 +63,11 @@ class AnswerLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        children: [
-          Container(
-            width: 30.0,
-            height: 30.0,
-            color: appWhite,
-            margin: const EdgeInsets.symmetric(vertical: 10.0),
-          ),
-          const SizedBox(width: 15.0),
-          Container(
-            width: 300.0,
-            height: 30.0,
-            color: appWhite,
-            margin: const EdgeInsets.symmetric(vertical: 10.0),
-          ),
-        ],
-      ),
+    return RadioListTile<int>(
+      title: const Text(''),
+      value: 0,
+      groupValue: 1,
+      onChanged: (int? value) {},
     );
   }
 }

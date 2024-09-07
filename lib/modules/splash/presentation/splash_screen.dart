@@ -5,7 +5,7 @@ import 'package:ai_skill_assessment/styles/app_assets.dart';
 import 'package:ai_skill_assessment/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
+import 'package:rive/rive.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -26,8 +26,9 @@ class SplashScreen extends StatelessWidget {
           },
           builder: (context, state) {
             return Center(
-              child: Lottie.asset(splashLoader),
-            );
+                child: RiveAnimation.asset(
+              splashLoader,
+            ));
           },
         ),
       ),
