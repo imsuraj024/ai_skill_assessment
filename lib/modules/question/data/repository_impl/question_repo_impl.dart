@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:ai_skill_assessment/constant.dart';
-import 'package:ai_skill_assessment/dio_client.dart';
-import 'package:ai_skill_assessment/question/data/model/question_model.dart';
-import 'package:ai_skill_assessment/question/domain/repository/question_repo.dart';
+import 'package:ai_skill_assessment/utils/constant.dart';
+import 'package:ai_skill_assessment/network/dio_client.dart';
+import 'package:ai_skill_assessment/modules/question/data/model/question_model.dart';
+import 'package:ai_skill_assessment/modules/question/domain/repository/question_repo.dart';
 
 class QuestionRepoImpl implements QuestionRepo {
   final DioClient dio;
@@ -27,10 +27,10 @@ class QuestionRepoImpl implements QuestionRepo {
           }
         ],
         "generationConfig": {
-          "temperature": 2,
-          "topK": 100,
-          "topP": 0.80,
-          "maxOutputTokens": 9000,
+          "temperature": 1,
+          "topK": 64,
+          "topP": 0.95,
+          "maxOutputTokens": 8192,
           "responseMimeType": "application/json"
         }
       }),

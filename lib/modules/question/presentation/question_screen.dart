@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ai_skill_assessment/loading/question_loading.dart';
-import 'package:ai_skill_assessment/question/presentation/bloc/question_bloc.dart';
-import 'package:ai_skill_assessment/service_locator.dart';
+import 'package:ai_skill_assessment/modules/widget/question_loading.dart';
+import 'package:ai_skill_assessment/modules/question/presentation/bloc/question_bloc.dart';
+import 'package:ai_skill_assessment/config/service_locator.dart';
 import 'package:ai_skill_assessment/styles/app_colors.dart';
 
 class QuestionScreen extends StatefulWidget {

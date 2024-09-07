@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:ai_skill_assessment/utils/constant.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ai_skill_assessment/prompts.dart';
-import 'package:ai_skill_assessment/question/data/model/question_model.dart';
-import 'package:ai_skill_assessment/question/domain/usecase/question_usecase.dart';
+import 'package:ai_skill_assessment/modules/question/data/model/question_model.dart';
+import 'package:ai_skill_assessment/modules/question/domain/usecase/question_usecase.dart';
 import 'package:toastification/toastification.dart';
 
 part 'question_event.dart';
@@ -62,56 +62,72 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
       final selectedAnswer =
           currentState.selectedAnswers[currentState.currentQuestionIndex];
 
-      if (kDebugMode) {
-        print('---------- Output -----------');
-        print(
-            'Question : ${currentState.questions[currentState.currentQuestionIndex].question}');
-        print(
-            'Selected Answer: ${selectedAnswer == null ? 'No answer selected' : currentState.questions[currentState.currentQuestionIndex].options[selectedAnswer]} ');
-        print(
-            'Correct Answer: ${currentState.questions[currentState.currentQuestionIndex].options[currentState.questions[currentState.currentQuestionIndex].correctIndex]}');
-        print('---------------------');
-      }
-
-      if ((selectedAnswer ?? -1) ==
-          currentState
-              .questions[currentState.currentQuestionIndex].correctIndex) {
-        toastification.show(
-          autoCloseDuration: const Duration(seconds: 2),
-          title: const Text('Correct! Well done! 🎉 You’re on the right track'),
-          closeOnClick: false,
-          type: ToastificationType.success,
-          style: ToastificationStyle.flatColored,
-          showIcon: false,
-          closeButtonShowType: CloseButtonShowType.none,
-        );
-      } else {
+      if (selectedAnswer == null) {
         toastification.show(
           autoCloseDuration: const Duration(seconds: 2),
           title: Text(
-              'Oops! ❌ The correct answer is ${currentState.questions[currentState.currentQuestionIndex].options[currentState.questions[currentState.currentQuestionIndex].correctIndex]}.'),
+              'Please select an answer for question ${currentState.currentQuestionIndex + 1}'),
           closeOnClick: false,
           type: ToastificationType.error,
           style: ToastificationStyle.flatColored,
           showIcon: false,
           closeButtonShowType: CloseButtonShowType.none,
         );
-      }
-
-      final isLastQuestion = _isLastQuestion(
-        currentState.currentQuestionIndex,
-        currentState.questions.length,
-      );
-
-      if (isLastQuestion) {
-        _handleLevelProgression(emit);
       } else {
-        emit(QuestionLoadedState(
-          questions: currentState.questions,
-          selectedAnswers: currentState.selectedAnswers,
-          currentQuestionIndex: currentState.currentQuestionIndex + 1,
-          phase: currentState.phase,
-        ));
+        if (kDebugMode) {
+          print('---------- Output -----------');
+          print(
+              'Question : ${currentState.questions[currentState.currentQuestionIndex].question}');
+          print(
+              'Selected Answer: ${selectedAnswer == null ? 'No answer selected' : currentState.questions[currentState.currentQuestionIndex].options[selectedAnswer]} ');
+          print(
+              'Correct Answer: ${currentState.questions[currentState.currentQuestionIndex].options[currentState.questions[currentState.currentQuestionIndex].correctIndex]}');
+          print(
+              'Explanation : ${currentState.questions[currentState.currentQuestionIndex].explanation}');
+          print('---------------------');
+        }
+
+        if (selectedAnswer ==
+            currentState
+                .questions[currentState.currentQuestionIndex].correctIndex) {
+          toastification.show(
+            autoCloseDuration: const Duration(seconds: 2),
+            title:
+                const Text('Correct! Well done! 🎉 You’re on the right track'),
+            closeOnClick: false,
+            type: ToastificationType.success,
+            style: ToastificationStyle.flatColored,
+            showIcon: false,
+            closeButtonShowType: CloseButtonShowType.none,
+          );
+        } else {
+          toastification.show(
+            autoCloseDuration: const Duration(seconds: 3),
+            title: Text(
+                'Oops! ❌ The correct answer is ${currentState.questions[currentState.currentQuestionIndex].options[currentState.questions[currentState.currentQuestionIndex].correctIndex]}.'),
+            closeOnClick: false,
+            type: ToastificationType.error,
+            style: ToastificationStyle.flatColored,
+            showIcon: false,
+            closeButtonShowType: CloseButtonShowType.none,
+          );
+        }
+
+        final isLastQuestion = _isLastQuestion(
+          currentState.currentQuestionIndex,
+          currentState.questions.length,
+        );
+
+        if (isLastQuestion) {
+          _handleLevelProgression(emit);
+        } else {
+          emit(QuestionLoadedState(
+            questions: currentState.questions,
+            selectedAnswers: currentState.selectedAnswers,
+            currentQuestionIndex: currentState.currentQuestionIndex + 1,
+            phase: currentState.phase,
+          ));
+        }
       }
     }
   }
@@ -147,13 +163,14 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   Future<List<Question>> _fetchQuestionsByLevel(int level) async {
     switch (level) {
       case 1:
-        return questionUsecase.call(const FetchQuestionParams(beginner));
+        return questionUsecase.call(FetchQuestionParams('$beginner $schema'));
       case 2:
-        return questionUsecase.call(const FetchQuestionParams(intermediate));
+        return questionUsecase
+            .call(FetchQuestionParams('$intermediate $schema'));
       case 3:
-        return questionUsecase.call(const FetchQuestionParams(advanced));
+        return questionUsecase.call(FetchQuestionParams('$advanced $schema'));
       case 4:
-        return questionUsecase.call(const FetchQuestionParams(expert));
+        return questionUsecase.call(FetchQuestionParams('$expert $schema'));
       default:
         throw Exception("Invalid level");
     }
