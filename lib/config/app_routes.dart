@@ -1,3 +1,4 @@
+import 'package:ai_skill_assessment/modules/final_result/presentation/final_result_screen.dart';
 import 'package:ai_skill_assessment/modules/question/presentation/question_screen.dart';
 import 'package:ai_skill_assessment/modules/result/presentation/result_screen.dart';
 import 'package:ai_skill_assessment/modules/splash/presentation/splash_screen.dart';
@@ -8,6 +9,7 @@ class AppRoutes {
   static const String splash = '/';
   static const String question = '/question';
   static const String result = '/result';
+  static const String finalResult = '/finalResult';
 
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
@@ -24,6 +26,10 @@ class AppRoutes {
             settings.arguments as ResultScreenArguments;
         return MaterialPageRoute(
           builder: (context) => ResultScreen(args: args),
+        );
+      case finalResult:
+        return MaterialPageRoute(
+          builder: (context) => const FinalResultScreen(),
         );
       default:
         return _errorRoute();

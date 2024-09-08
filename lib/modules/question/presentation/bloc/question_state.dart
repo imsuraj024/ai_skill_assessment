@@ -49,11 +49,12 @@ class QuestionLoadedState extends AssesmentState {
 
 class QuestionErrorState extends AssesmentState {
   final String message;
+  final int level;
 
-  const QuestionErrorState(this.message);
+  const QuestionErrorState(this.message, this.level);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, level];
 }
 
 class MoveToResult extends AssesmentState {

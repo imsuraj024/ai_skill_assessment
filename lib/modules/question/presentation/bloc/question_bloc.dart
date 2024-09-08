@@ -14,7 +14,7 @@ part 'question_state.dart';
 
 class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   final QuestionUsecase questionUsecase;
-  int level = 1, totalQuestionsCount = 0, correctAnswerCount = 0;
+  int level = 0, totalQuestionsCount = 0, correctAnswerCount = 0;
 
   QuestionBloc(this.questionUsecase) : super(const AssesmentInitialState()) {
     on<GetQuestions>(_getQuestions);
@@ -26,8 +26,10 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
       GetQuestions event, Emitter<AssesmentState> emit) async {
     try {
       emit(const QuestionLoadingState());
-      final questions = await _fetchQuestionsByLevel(event.level);
+      level = event.level;
+      final questions = await _fetchQuestionsByLevel(level);
       totalQuestionsCount = questions.length;
+      correctAnswerCount = 0;
       emit(QuestionLoadedState(
         questions: questions,
         selectedAnswers: const {},
@@ -35,7 +37,7 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
         phase: _fetchPhaseByLevel(event.level),
       ));
     } catch (e) {
-      emit(QuestionErrorState('Failed to load questions: $e'));
+      emit(QuestionErrorState('Failed to load questions: $e', level));
     }
   }
 
@@ -73,11 +75,10 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
 
         if (isLastQuestion) {
           final percentage = (correctAnswerCount / totalQuestionsCount) * 100;
-          await Future.delayed(const Duration(seconds: 1));
+
           emit(MoveToResult(
               percentage, correctAnswerCount, totalQuestionsCount, level));
         } else {
-          await Future.delayed(const Duration(seconds: 1));
           emit(currentState.copyWith(
             currentQuestionIndex: currentState.currentQuestionIndex + 1,
           ));

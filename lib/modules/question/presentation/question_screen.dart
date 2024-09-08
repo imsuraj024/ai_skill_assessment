@@ -30,6 +30,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
       create: (context) => bloc..add(const GetQuestions(level: 1)),
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: appBlack,
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
@@ -38,20 +39,19 @@ class _QuestionScreenState extends State<QuestionScreen> {
               fontWeight: FontWeight.w700,
               fontSize: 20,
               letterSpacing: 2.0,
-              color: appQuestion,
+              color: appWhite,
               height: 1.5,
               fontFamily: GoogleFonts.roboto().fontFamily,
             ),
           ),
         ),
         body: BlocConsumer<QuestionBloc, AssesmentState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is QuestionErrorState) {
               if (kDebugMode) {
                 print(state.message);
               }
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.message)));
+              bloc.add(GetQuestions(level: state.level));
             }
 
             if (state is MoveToResult) {
@@ -61,7 +61,15 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 totalQuestionsCount: state.totalQuestionsCount,
                 level: state.level,
               );
-              Navigator.pushNamed(context, AppRoutes.result, arguments: args);
+
+              if (state.level < 4) {
+                final int result = await Navigator.pushNamed(
+                    context, AppRoutes.result,
+                    arguments: args) as int;
+                bloc.add(GetQuestions(level: result));
+              } else {
+                Navigator.pushNamed(context, AppRoutes.finalResult);
+              }
             }
           },
           builder: (context, state) {
@@ -197,6 +205,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
           fontFamily: GoogleFonts.roboto().fontFamily,
         ),
       ),
+      activeColor: appBlack,
       value: index,
       groupValue: selectedAnswer,
       onChanged: (int? value) {
@@ -219,6 +228,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
           bloc.add(NextQuestion(questionIndex: currentQuestionIndex));
         },
         style: ElevatedButton.styleFrom(
+          backgroundColor: appBlack,
+          foregroundColor: appWhite,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           textStyle: TextStyle(
             fontFamily: GoogleFonts.roboto().fontFamily,

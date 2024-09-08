@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ResultScreen extends StatefulWidget {
   final ResultScreenArguments args;
+
   const ResultScreen({super.key, required this.args});
 
   @override
@@ -15,22 +16,31 @@ class ResultScreen extends StatefulWidget {
 }
 
 class _ResultScreenState extends State<ResultScreen> {
-  final ResultBloc bloc = ResultBloc();
+  late final ResultBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = ResultBloc()
+      ..add(ResultLoadedEvent(widget.args.percentage, widget.args.level));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bloc,
+      create: (context) => _bloc,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
+          backgroundColor: appBlack,
           title: Text(
             'Skill Assessment',
             style: TextStyle(
               fontWeight: FontWeight.w700,
               letterSpacing: 2.0,
               fontSize: 20,
-              color: appQuestion,
+              color: appWhite,
               height: 1.5,
               fontFamily: GoogleFonts.roboto().fontFamily,
             ),
@@ -38,10 +48,7 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: BlocBuilder(
-            bloc: bloc
-              ..add(
-                  ResultLoadedEvent(widget.args.percentage, widget.args.level)),
+          child: BlocBuilder<ResultBloc, ResultState>(
             builder: (context, state) {
               if (state is ResultLoaded) {
                 return Column(
@@ -56,7 +63,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       child: Text(
-                        '${bloc.fetchPhaseByLevel(widget.args.level)}  Assessment',
+                        '${_bloc.fetchPhaseByLevel(widget.args.level)} Assessment',
                         style: TextStyle(
                           color: appBlack,
                           fontSize: 24,
@@ -88,7 +95,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 24.0),
                             child: Text(
-                              'Your percentage - ${widget.args.percentage} %',
+                              'Your percentage - ${widget.args.percentage.roundToDouble()} %',
                               style: TextStyle(
                                 color: appBlack.withOpacity(0.7),
                                 fontSize: 16,
@@ -114,11 +121,11 @@ class _ResultScreenState extends State<ResultScreen> {
                         ],
                       ),
                     ),
-                    _buildSubmitButton(),
+                    _buildSubmitButton(widget.args.level),
                   ],
                 );
               }
-              return const SizedBox();
+              return const Center(child: CircularProgressIndicator());
             },
           ),
         ),
@@ -126,13 +133,17 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(int level) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context, level + 1);
+        },
         style: ElevatedButton.styleFrom(
+          backgroundColor: appBlack,
+          foregroundColor: appWhite,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           textStyle: TextStyle(
             fontFamily: GoogleFonts.roboto().fontFamily,
@@ -143,9 +154,7 @@ class _ResultScreenState extends State<ResultScreen> {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: const Text(
-          'Next',
-        ),
+        child: const Text('Next'),
       ),
     );
   }
