@@ -56,6 +56,15 @@ class QuestionErrorState extends AssesmentState {
   List<Object> get props => [message];
 }
 
-class AssesmentCompleteState extends AssesmentState {
-  const AssesmentCompleteState();
+class MoveToResult extends AssesmentState {
+  final double percentage;
+  final int correctAnswerCount;
+  final int totalQuestionsCount;
+  final int level;
+  const MoveToResult(this.percentage, this.correctAnswerCount,
+      this.totalQuestionsCount, this.level);
+
+  @override
+  List<Object> get props =>
+      [percentage, correctAnswerCount, totalQuestionsCount, level];
 }

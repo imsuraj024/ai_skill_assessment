@@ -16,7 +16,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   FutureOr<void> _fetchFirebaseData(
       FetchFirebaseData event, Emitter<SplashState> emit) async {
     emit(SplashLoading());
-    await Future.delayed(const Duration(seconds: 3)).then(
+    await Future.delayed(const Duration(seconds: 5)).then(
       (value) async {
         await _splashUsecase.fetchModelAndKey();
         await _splashUsecase.fetchLevelParams();

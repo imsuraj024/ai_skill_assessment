@@ -1,3 +1,4 @@
+import 'package:ai_skill_assessment/config/app_routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,11 +30,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
       create: (context) => bloc..add(const GetQuestions(level: 1)),
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
           title: Text(
             'Skill Assessment',
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 20,
+              letterSpacing: 2.0,
               color: appQuestion,
               height: 1.5,
               fontFamily: GoogleFonts.roboto().fontFamily,
@@ -49,16 +53,24 @@ class _QuestionScreenState extends State<QuestionScreen> {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.message)));
             }
+
+            if (state is MoveToResult) {
+              ResultScreenArguments args = ResultScreenArguments(
+                percentage: state.percentage,
+                correctAnswerCount: state.correctAnswerCount,
+                totalQuestionsCount: state.totalQuestionsCount,
+                level: state.level,
+              );
+              Navigator.pushNamed(context, AppRoutes.result, arguments: args);
+            }
           },
           builder: (context, state) {
             if (state is QuestionLoadingState) {
               return const QuestionLoading();
             } else if (state is QuestionLoadedState) {
               return _buildLoadedState(state);
-            } else if (state is AssesmentCompleteState) {
-              return const Center(child: Text('Assessment Completed!'));
             }
-            return Container();
+            return const SizedBox();
           },
         ),
       ),

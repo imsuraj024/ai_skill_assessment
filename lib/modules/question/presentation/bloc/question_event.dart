@@ -39,3 +39,4 @@ class NextQuestion extends QuestionEvent {
   @override
   List<Object> get props => [questionIndex];
 }
+

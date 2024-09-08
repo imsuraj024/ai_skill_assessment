@@ -14,7 +14,7 @@ part 'question_state.dart';
 
 class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   final QuestionUsecase questionUsecase;
-  int level = 1;
+  int level = 1, totalQuestionsCount = 0, correctAnswerCount = 0;
 
   QuestionBloc(this.questionUsecase) : super(const AssesmentInitialState()) {
     on<GetQuestions>(_getQuestions);
@@ -27,6 +27,7 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
     try {
       emit(const QuestionLoadingState());
       final questions = await _fetchQuestionsByLevel(event.level);
+      totalQuestionsCount = questions.length;
       emit(QuestionLoadedState(
         questions: questions,
         selectedAnswers: const {},
@@ -50,7 +51,8 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
     }
   }
 
-  void _nextQuestion(NextQuestion event, Emitter<AssesmentState> emit) {
+  Future<void> _nextQuestion(
+      NextQuestion event, Emitter<AssesmentState> emit) async {
     if (state is QuestionLoadedState) {
       final currentState = state as QuestionLoadedState;
       final selectedAnswer =
@@ -70,8 +72,12 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
         );
 
         if (isLastQuestion) {
-          _handleLevelProgression(emit);
+          final percentage = (correctAnswerCount / totalQuestionsCount) * 100;
+          await Future.delayed(const Duration(seconds: 1));
+          emit(MoveToResult(
+              percentage, correctAnswerCount, totalQuestionsCount, level));
         } else {
+          await Future.delayed(const Duration(seconds: 1));
           emit(currentState.copyWith(
             currentQuestionIndex: currentState.currentQuestionIndex + 1,
           ));
@@ -85,15 +91,19 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
         currentState.questions[currentState.currentQuestionIndex];
     final correctAnswer = currentQuestion.correctIndex;
     final explanation = currentQuestion.explanation;
+    final weightage = currentQuestion.weightage;
 
     if (kDebugMode) {
       print('Question: ${currentQuestion.question}');
       print('Selected Answer: ${currentQuestion.options[selectedAnswer]}');
       print('Correct Answer: ${currentQuestion.options[correctAnswer]}');
       print('Explanation: $explanation');
+      print('Weightage: $weightage');
     }
 
     if (selectedAnswer == correctAnswer) {
+      correctAnswerCount++;
+
       _showToastMessage(
         'Correct! Well done! 🎉 You’re on the right track',
         ToastificationType.success,
@@ -108,15 +118,6 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
 
   bool _isLastQuestion(int currentIndex, int totalQuestions) {
     return currentIndex == totalQuestions - 1;
-  }
-
-  void _handleLevelProgression(Emitter<AssesmentState> emit) {
-    if (level < 4) {
-      level++;
-      add(GetQuestions(level: level));
-    } else {
-      emit(const AssesmentCompleteState());
-    }
   }
 
   Future<List<Question>> _fetchQuestionsByLevel(int level) async {

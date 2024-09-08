@@ -3,12 +3,15 @@ class Question {
   final List<String> options;
   final int correctIndex;
   final String explanation;
+  final int weightage;
 
-  Question(
-      {required this.question,
-      required this.options,
-      required this.correctIndex,
-      required this.explanation});
+  Question({
+    required this.question,
+    required this.options,
+    required this.correctIndex,
+    required this.explanation,
+    required this.weightage,
+  });
 
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
@@ -16,6 +19,7 @@ class Question {
       options: List<String>.from(json['options']),
       correctIndex: json['correct_answer'],
       explanation: json['explanation'],
+      weightage: json['weightage'],
     );
   }
 
@@ -25,6 +29,7 @@ class Question {
       'options': options,
       'correct_answer': correctIndex,
       'explanation': explanation,
+      'weightage': weightage,
     };
   }
 }
