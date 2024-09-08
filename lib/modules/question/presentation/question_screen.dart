@@ -234,6 +234,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
           textStyle: TextStyle(
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 18,
+            letterSpacing: 1.0,
             fontWeight: FontWeight.w500,
           ),
           shape: RoundedRectangleBorder(

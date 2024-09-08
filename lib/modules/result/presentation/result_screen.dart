@@ -67,6 +67,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         style: TextStyle(
                           color: appBlack,
                           fontSize: 24,
+                          letterSpacing: 2.0,
                           fontFamily: GoogleFonts.montserrat().fontFamily,
                           fontWeight: FontWeight.bold,
                         ),
@@ -148,6 +149,7 @@ class _ResultScreenState extends State<ResultScreen> {
           textStyle: TextStyle(
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 18,
+            letterSpacing: 1.0,
             fontWeight: FontWeight.w500,
           ),
           shape: RoundedRectangleBorder(

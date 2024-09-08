@@ -41,82 +41,76 @@ class _FinalResultScreenState extends State<FinalResultScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<ResultBloc, ResultState>(
-          builder: (context, state) {
-            if (state is ResultLoaded) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(
+              appResult,
+              height: 150,
+              width: 150,
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Text(
+                'Final Assessment',
+                style: TextStyle(
+                  color: appBlack,
+                  fontSize: 24,
+                  letterSpacing: 2.0,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: Column(
                 children: [
-                  Image.asset(
-                    appResult,
-                    height: 150,
-                    width: 150,
-                  ),
-                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24.0),
                     child: Text(
-                      'Final Assessment',
+                      '',
                       style: TextStyle(
-                        color: appBlack,
-                        fontSize: 24,
+                        color: appBlack.withOpacity(0.7),
+                        fontSize: 16,
                         fontFamily: GoogleFonts.montserrat().fontFamily,
-                        fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text(
-                            '',
-                            style: TextStyle(
-                              color: appBlack.withOpacity(0.7),
-                              fontSize: 16,
-                              fontFamily: GoogleFonts.montserrat().fontFamily,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text(
-                            '',
-                            style: TextStyle(
-                              color: appBlack.withOpacity(0.7),
-                              fontSize: 16,
-                              fontFamily: GoogleFonts.montserrat().fontFamily,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text(
-                            state.message,
-                            style: TextStyle(
-                              color: appBlack.withOpacity(0.7),
-                              fontSize: 16,
-                              fontFamily: GoogleFonts.montserrat().fontFamily,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
+                  const SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Text(
+                      '',
+                      style: TextStyle(
+                        color: appBlack.withOpacity(0.7),
+                        fontSize: 16,
+                        fontFamily: GoogleFonts.montserrat().fontFamily,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  _buildSubmitButton(),
+                  const SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Text(
+                      '',
+                      style: TextStyle(
+                        color: appBlack.withOpacity(0.7),
+                        fontSize: 16,
+                        fontFamily: GoogleFonts.montserrat().fontFamily,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ],
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
+              ),
+            ),
+            _buildSubmitButton(),
+          ],
         ),
       ),
     );
@@ -135,13 +129,14 @@ class _FinalResultScreenState extends State<FinalResultScreen> {
           textStyle: TextStyle(
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 18,
+            letterSpacing: 1.0,
             fontWeight: FontWeight.w500,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: const Text('Next'),
+        child: const Text('Finish'),
       ),
     );
   }

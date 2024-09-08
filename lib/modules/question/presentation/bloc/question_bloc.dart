@@ -94,14 +94,6 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
     final explanation = currentQuestion.explanation;
     final weightage = currentQuestion.weightage;
 
-    if (kDebugMode) {
-      print('Question: ${currentQuestion.question}');
-      print('Selected Answer: ${currentQuestion.options[selectedAnswer]}');
-      print('Correct Answer: ${currentQuestion.options[correctAnswer]}');
-      print('Explanation: $explanation');
-      print('Weightage: $weightage');
-    }
-
     if (selectedAnswer == correctAnswer) {
       correctAnswerCount++;
 
