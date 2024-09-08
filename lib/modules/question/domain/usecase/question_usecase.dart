@@ -10,11 +10,19 @@ class QuestionUsecase
 
   @override
   Future<List<Question>> call(FetchQuestionParams params) async {
-    return await questionRepo.fetchQuestions(params.prompt);
+    try {
+      return await questionRepo.fetchQuestions(params.prompt);
+    } catch (e) {
+      throw Exception('Failed to fetch questions: $e');
+    }
   }
 }
 
 class FetchQuestionParams {
   final String prompt;
+
   const FetchQuestionParams(this.prompt);
+
+  @override
+  String toString() => 'FetchQuestionParams(prompt: $prompt)';
 }
