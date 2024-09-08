@@ -16,6 +16,7 @@ class DioClient {
       responseHeader: true,
       responseBody: true,
       error: true,
+      // ignore: avoid_print
       logPrint: (object) => print(object.toString()),
     ));
   }

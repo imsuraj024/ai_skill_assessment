@@ -1,5 +1,4 @@
 import 'package:ai_skill_assessment/config/app_routes.dart';
-import 'package:ai_skill_assessment/modules/splash/presentation/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ai_skill_assessment/config/service_locator.dart';
