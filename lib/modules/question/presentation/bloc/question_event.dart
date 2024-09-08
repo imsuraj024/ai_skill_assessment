@@ -21,7 +21,11 @@ class SelectAnswer extends QuestionEvent {
   final int selectedAnswer;
   final String level;
 
-  const SelectAnswer(this.questionIndex, this.selectedAnswer, this.level);
+  const SelectAnswer({
+    required this.questionIndex,
+    required this.selectedAnswer,
+    required this.level,
+  });
 
   @override
   List<Object> get props => [questionIndex, selectedAnswer, level];
@@ -30,7 +34,7 @@ class SelectAnswer extends QuestionEvent {
 class NextQuestion extends QuestionEvent {
   final int questionIndex;
 
-  const NextQuestion(this.questionIndex);
+  const NextQuestion({required this.questionIndex});
 
   @override
   List<Object> get props => [questionIndex];

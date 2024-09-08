@@ -4,7 +4,7 @@ abstract class AssesmentState extends Equatable {
   const AssesmentState();
 
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class AssesmentInitialState extends AssesmentState {
@@ -28,23 +28,32 @@ class QuestionLoadedState extends AssesmentState {
     required this.phase,
   });
 
+  QuestionLoadedState copyWith({
+    List<Question>? questions,
+    Map<int, int>? selectedAnswers,
+    int? currentQuestionIndex,
+    String? phase,
+  }) {
+    return QuestionLoadedState(
+      questions: questions ?? this.questions,
+      selectedAnswers: selectedAnswers ?? this.selectedAnswers,
+      currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
+      phase: phase ?? this.phase,
+    );
+  }
+
   @override
-  List<Object?> get props =>
+  List<Object> get props =>
       [questions, selectedAnswers, currentQuestionIndex, phase];
 }
 
 class QuestionErrorState extends AssesmentState {
   final String message;
+
   const QuestionErrorState(this.message);
 
   @override
-  List<Object?> get props => [message];
-}
-
-class AnswerState extends AssesmentState {
-  final String message;
-  final Color color;
-  const AnswerState(this.message, this.color);
+  List<Object> get props => [message];
 }
 
 class AssesmentCompleteState extends AssesmentState {

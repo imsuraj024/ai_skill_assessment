@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_skill_assessment/modules/question/data/model/question_model.dart';
 import 'package:ai_skill_assessment/modules/question/domain/usecase/question_usecase.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:toastification/toastification.dart';
 
 part 'question_event.dart';
@@ -26,31 +27,25 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
     try {
       emit(const QuestionLoadingState());
       final questions = await _fetchQuestionsByLevel(event.level);
-      emit(
-        QuestionLoadedState(
-          questions: questions,
-          selectedAnswers: const {},
-          currentQuestionIndex: 0,
-          phase: _fetchPhaseByLevel(event.level),
-        ),
-      );
+      emit(QuestionLoadedState(
+        questions: questions,
+        selectedAnswers: const {},
+        currentQuestionIndex: 0,
+        phase: _fetchPhaseByLevel(event.level),
+      ));
     } catch (e) {
-      emit(QuestionErrorState('Failed to load questions: ${e.toString()}'));
+      emit(QuestionErrorState('Failed to load questions: $e'));
     }
   }
 
   void _selectAnswer(SelectAnswer event, Emitter<AssesmentState> emit) {
     if (state is QuestionLoadedState) {
       final currentState = state as QuestionLoadedState;
-
-      final updatedAnswers = Map<int, int>.from(currentState.selectedAnswers)
+      final updatedAnswers = {...currentState.selectedAnswers}
         ..[event.questionIndex] = event.selectedAnswer;
 
-      emit(QuestionLoadedState(
-        questions: currentState.questions,
+      emit(currentState.copyWith(
         selectedAnswers: updatedAnswers,
-        currentQuestionIndex: currentState.currentQuestionIndex,
-        phase: event.level,
       ));
     }
   }
@@ -58,60 +53,16 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   void _nextQuestion(NextQuestion event, Emitter<AssesmentState> emit) {
     if (state is QuestionLoadedState) {
       final currentState = state as QuestionLoadedState;
-
       final selectedAnswer =
           currentState.selectedAnswers[currentState.currentQuestionIndex];
 
       if (selectedAnswer == null) {
-        toastification.show(
-          autoCloseDuration: const Duration(seconds: 2),
-          title: Text(
-              'Please select an answer for question ${currentState.currentQuestionIndex + 1}'),
-          closeOnClick: false,
-          type: ToastificationType.error,
-          style: ToastificationStyle.flatColored,
-          showIcon: false,
-          closeButtonShowType: CloseButtonShowType.none,
+        _showToastMessage(
+          'Please select an answer for question ${currentState.currentQuestionIndex + 1}',
+          ToastificationType.error,
         );
       } else {
-        if (kDebugMode) {
-          print('---------- Output -----------');
-          print(
-              'Question : ${currentState.questions[currentState.currentQuestionIndex].question}');
-          print(
-              'Selected Answer: ${selectedAnswer == null ? 'No answer selected' : currentState.questions[currentState.currentQuestionIndex].options[selectedAnswer]} ');
-          print(
-              'Correct Answer: ${currentState.questions[currentState.currentQuestionIndex].options[currentState.questions[currentState.currentQuestionIndex].correctIndex]}');
-          print(
-              'Explanation : ${currentState.questions[currentState.currentQuestionIndex].explanation}');
-          print('---------------------');
-        }
-
-        if (selectedAnswer ==
-            currentState
-                .questions[currentState.currentQuestionIndex].correctIndex) {
-          toastification.show(
-            autoCloseDuration: const Duration(seconds: 2),
-            title:
-                const Text('Correct! Well done! 🎉 You’re on the right track'),
-            closeOnClick: false,
-            type: ToastificationType.success,
-            style: ToastificationStyle.flatColored,
-            showIcon: false,
-            closeButtonShowType: CloseButtonShowType.none,
-          );
-        } else {
-          toastification.show(
-            autoCloseDuration: const Duration(seconds: 3),
-            title: Text(
-                'Oops! ❌ The correct answer is ${currentState.questions[currentState.currentQuestionIndex].options[currentState.questions[currentState.currentQuestionIndex].correctIndex]}.'),
-            closeOnClick: false,
-            type: ToastificationType.error,
-            style: ToastificationStyle.flatColored,
-            showIcon: false,
-            closeButtonShowType: CloseButtonShowType.none,
-          );
-        }
+        _evaluateAnswer(currentState, selectedAnswer);
 
         final isLastQuestion = _isLastQuestion(
           currentState.currentQuestionIndex,
@@ -121,14 +72,37 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
         if (isLastQuestion) {
           _handleLevelProgression(emit);
         } else {
-          emit(QuestionLoadedState(
-            questions: currentState.questions,
-            selectedAnswers: currentState.selectedAnswers,
+          emit(currentState.copyWith(
             currentQuestionIndex: currentState.currentQuestionIndex + 1,
-            phase: currentState.phase,
           ));
         }
       }
+    }
+  }
+
+  void _evaluateAnswer(QuestionLoadedState currentState, int selectedAnswer) {
+    final currentQuestion =
+        currentState.questions[currentState.currentQuestionIndex];
+    final correctAnswer = currentQuestion.correctIndex;
+    final explanation = currentQuestion.explanation;
+
+    if (kDebugMode) {
+      print('Question: ${currentQuestion.question}');
+      print('Selected Answer: ${currentQuestion.options[selectedAnswer]}');
+      print('Correct Answer: ${currentQuestion.options[correctAnswer]}');
+      print('Explanation: $explanation');
+    }
+
+    if (selectedAnswer == correctAnswer) {
+      _showToastMessage(
+        'Correct! Well done! 🎉 You’re on the right track',
+        ToastificationType.success,
+      );
+    } else {
+      _showToastMessage(
+        'Oops! ❌ The correct answer is ${currentQuestion.options[correctAnswer]}',
+        ToastificationType.error,
+      );
     }
   }
 
@@ -142,6 +116,22 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
       add(GetQuestions(level: level));
     } else {
       emit(const AssesmentCompleteState());
+    }
+  }
+
+  Future<List<Question>> _fetchQuestionsByLevel(int level) async {
+    switch (level) {
+      case 1:
+        return questionUsecase.call(FetchQuestionParams('$beginner $schema'));
+      case 2:
+        return questionUsecase
+            .call(FetchQuestionParams('$intermediate $schema'));
+      case 3:
+        return questionUsecase.call(FetchQuestionParams('$advanced $schema'));
+      case 4:
+        return questionUsecase.call(FetchQuestionParams('$expert $schema'));
+      default:
+        throw Exception("Invalid level");
     }
   }
 
@@ -160,19 +150,23 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
     }
   }
 
-  Future<List<Question>> _fetchQuestionsByLevel(int level) async {
-    switch (level) {
-      case 1:
-        return questionUsecase.call(FetchQuestionParams('$beginner $schema'));
-      case 2:
-        return questionUsecase
-            .call(FetchQuestionParams('$intermediate $schema'));
-      case 3:
-        return questionUsecase.call(FetchQuestionParams('$advanced $schema'));
-      case 4:
-        return questionUsecase.call(FetchQuestionParams('$expert $schema'));
-      default:
-        throw Exception("Invalid level");
-    }
+  void _showToastMessage(String message, ToastificationType type) {
+    toastification.show(
+      autoCloseDuration: const Duration(seconds: 2),
+      title: Text(
+        message,
+        style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 16,
+          height: 1.2,
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+        ),
+      ),
+      closeOnClick: false,
+      type: type,
+      style: ToastificationStyle.flatColored,
+      showIcon: false,
+      closeButtonShowType: CloseButtonShowType.none,
+    );
   }
 }

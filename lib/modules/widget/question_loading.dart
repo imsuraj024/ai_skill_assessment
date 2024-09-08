@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ai_skill_assessment/styles/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class QuestionLoading extends StatelessWidget {
@@ -7,66 +6,70 @@ class QuestionLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: appGrey300,
-      highlightColor: appGrey100,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Simulate the level and question number shimmer
           Padding(
             padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  width: 50.0,
-                  height: 30.0,
-                  color: appWhite,
-                ),
-                Container(
-                  width: 50.0,
-                  height: 30.0,
-                  color: appWhite,
-                ),
+                _buildShimmerBox(height: 30, width: 100),
+                _buildShimmerBox(height: 30, width: 80),
               ],
             ),
           ),
           const Divider(),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
-            child: Container(
-              width: double.infinity,
-              height: 80.0,
-              color: appWhite,
+          Expanded(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 30.0),
+                  child: _buildShimmerBox(height: 80, width: double.infinity),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 30.0),
+                  child: Column(
+                    children: List.generate(
+                        4,
+                        (index) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: _buildShimmerBox(
+                                  height: 30, width: double.infinity),
+                            )),
+                  ),
+                ),
+              ],
             ),
           ),
-          ...List.generate(
-            4,
-            (index) => const AnswerLoading(),
+          // Simulate the submit button shimmer
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+            child: _buildShimmerBox(height: 40, width: double.infinity),
           ),
         ],
       ),
     );
   }
-}
 
-class AnswerLoading extends StatelessWidget {
-  const AnswerLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return RadioListTile<int>(
-      title: Container(
-        width: double.infinity,
-        height: 30.0,
-        color: appWhite,
+  Widget _buildShimmerBox({required double height, required double width}) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        height: height,
+        width: width,
+        color: Colors.white,
       ),
-      value: 0,
-      groupValue: 1,
-      onChanged: (int? value) {},
     );
   }
 }
