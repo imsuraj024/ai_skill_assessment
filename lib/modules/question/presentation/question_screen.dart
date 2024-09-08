@@ -68,7 +68,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     arguments: args) as int;
                 bloc.add(GetQuestions(level: result));
               } else {
-                Navigator.pushNamed(context, AppRoutes.finalResult);
+                await Navigator.pushNamed(context, AppRoutes.finalResult);
+                bloc.add(const GetQuestions(level: 1));
               }
             }
           },

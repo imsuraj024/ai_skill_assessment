@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ai_skill_assessment/utils/constant.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,16 +39,17 @@ class ResultBloc extends Bloc<ResultEvent, ResultState> {
     }
   }
 
-  // void _handleLevelProgression() {
-  //   if (level < 4) {
-  //     level++;
-  //   } else {
-
-  //   }
-  // }
-
   FutureOr<void> _resultLoadedEvent(
       ResultLoadedEvent event, Emitter<ResultState> emit) {
+    if (event.level == 1) {
+      beginnerPercentage = event.percentage;
+    } else if (event.level == 2) {
+      intermediatePercentage = event.percentage;
+    } else if (event.level == 3) {
+      advancedPercentage = event.percentage;
+    } else {
+      expertPercentage = event.percentage;
+    }
     emit(ResultLoaded(
         message: _getResult(event.percentage), level: event.level));
   }
