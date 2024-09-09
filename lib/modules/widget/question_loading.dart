@@ -62,13 +62,15 @@ class QuestionLoading extends StatelessWidget {
   }
 
   Widget _buildShimmerBox({required double height, required double width}) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        height: height,
-        width: width,
-        color: Colors.white,
+    return RepaintBoundary(
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          height: height,
+          width: width,
+          color: Colors.white,
+        ),
       ),
     );
   }
