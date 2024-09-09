@@ -134,14 +134,37 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   Future<List<Question>> _fetchQuestionsByLevel(int level) async {
     switch (level) {
       case 1:
-        return questionUsecase.call(FetchQuestionParams('$beginner $schema'));
+        return questionUsecase.call(FetchQuestionParams(generatePrompt(
+          beginner['questionCount'],
+          beginner['topic'],
+          beginner['level'],
+          beginner['role'],
+          beginner['focus'],
+        )));
       case 2:
-        return questionUsecase
-            .call(FetchQuestionParams('$intermediate $schema'));
+        return questionUsecase.call(FetchQuestionParams(generatePrompt(
+          intermediate['questionCount'],
+          intermediate['topic'],
+          intermediate['level'],
+          intermediate['role'],
+          intermediate['focus'],
+        )));
       case 3:
-        return questionUsecase.call(FetchQuestionParams('$advanced $schema'));
+        return questionUsecase.call(FetchQuestionParams(generatePrompt(
+          advanced['questionCount'],
+          advanced['topic'],
+          advanced['level'],
+          advanced['role'],
+          advanced['focus'],
+        )));
       case 4:
-        return questionUsecase.call(FetchQuestionParams('$expert $schema'));
+        return questionUsecase.call(FetchQuestionParams(generatePrompt(
+          expert['questionCount'],
+          expert['topic'],
+          expert['level'],
+          expert['role'],
+          expert['focus'],
+        )));
       default:
         throw Exception("Invalid level");
     }

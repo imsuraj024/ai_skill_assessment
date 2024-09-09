@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ToastificationWrapper(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'AI Skill Assessment',
         theme: ThemeData(
           scaffoldBackgroundColor: appWhite,
           useMaterial3: true,
