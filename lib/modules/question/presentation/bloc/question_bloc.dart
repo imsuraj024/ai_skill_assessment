@@ -86,10 +86,6 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
     final currentQuestion =
         currentState.questions[currentState.currentQuestionIndex];
     final correctAnswer = currentQuestion.correctIndex;
-    final explanation = currentQuestion.explanation;
-    final weightage = currentQuestion.weightage;
-
-    print(correctAnswer);
 
     if (selectedAnswer == correctAnswer) {
       correctAnswerCount++;

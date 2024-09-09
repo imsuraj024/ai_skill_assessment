@@ -193,7 +193,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ),
       activeColor: appBlack,
       value: index,
-      groupValue: selectedAnswer,
+      groupValue:
+          currentQuestionIndex == currentQuestionIndex ? selectedAnswer : null,
       onChanged: (int? value) {
         bloc.add(
           SelectAnswer(
