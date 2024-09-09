@@ -216,7 +216,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
         style: ElevatedButton.styleFrom(
           backgroundColor: appBlack,
           foregroundColor: appWhite,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
           textStyle: TextStyle(
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 18,
