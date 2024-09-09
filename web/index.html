@@ -29,10 +29,31 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>ai_skill_assessment</title>
+  <title>AI Skill Assessment</title>
+  <script>
+    const serviceWorkerVersion = '{{flutter_service_worker_version}}';
+  </script>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script>
+    window.addEventListener('load', function(ev) {
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine({
+                entrypointUrl: `main.dart.js?v=${serviceWorkerVersion}`
+            }).then(function(appRunner) {
+                appRunner.runApp();
+            });
+        }
+      });
+    });
+
+
+</script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

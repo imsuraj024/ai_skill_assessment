@@ -1,4 +1,5 @@
 import 'package:ai_skill_assessment/config/app_routes.dart';
+import 'package:ai_skill_assessment/utils/constant.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,19 +56,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
             }
 
             if (state is MoveToResult) {
-              ResultScreenArguments args = ResultScreenArguments(
-                percentage: state.percentage,
-                correctAnswerCount: state.correctAnswerCount,
-                totalQuestionsCount: state.totalQuestionsCount,
-                level: state.level,
-              );
-
               if (state.level < 4) {
+                ResultScreenArguments args = ResultScreenArguments(
+                  percentage: state.percentage,
+                  correctAnswerCount: state.correctAnswerCount,
+                  totalQuestionsCount: state.totalQuestionsCount,
+                  level: state.level,
+                );
+
                 final int result = await Navigator.pushNamed(
                     context, AppRoutes.result,
                     arguments: args) as int;
                 bloc.add(GetQuestions(level: result));
               } else {
+                expertPercentage = state.percentage;
                 await Navigator.pushNamed(context, AppRoutes.finalResult);
                 bloc.add(const GetQuestions(level: 1));
               }

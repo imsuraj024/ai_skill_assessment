@@ -178,62 +178,37 @@ class _FinalResultScreenState extends State<FinalResultScreen> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  const Divider(),
-                  const SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Average',
-                          style: TextStyle(
-                            color: appBlack,
-                            fontSize: 16,
-                            fontFamily: GoogleFonts.montserrat().fontFamily,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                        Text(
-                          '0.0 %',
-                          style: TextStyle(
-                            color: appBlack,
-                            fontSize: 16,
-                            fontFamily: GoogleFonts.montserrat().fontFamily,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Text(
-                      '',
-                      style: TextStyle(
-                        color: appBlack.withOpacity(0.7),
-                        fontSize: 16,
-                        fontFamily: GoogleFonts.montserrat().fontFamily,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Text(
-                      '',
-                      style: TextStyle(
-                        color: appBlack.withOpacity(0.7),
-                        fontSize: 16,
-                        fontFamily: GoogleFonts.montserrat().fontFamily,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+                  // const Divider(),
+                  // const SizedBox(height: 5),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       Text(
+                  //         'Average',
+                  //         style: TextStyle(
+                  //           color: appBlack,
+                  //           fontSize: 16,
+                  //           fontFamily: GoogleFonts.montserrat().fontFamily,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //         textAlign: TextAlign.start,
+                  //       ),
+                  //       Text(
+                  //         '0.0 %',
+                  //         style: TextStyle(
+                  //           color: appBlack,
+                  //           fontSize: 16,
+                  //           fontFamily: GoogleFonts.montserrat().fontFamily,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //         textAlign: TextAlign.start,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 5),
                 ],
               ),
             ),

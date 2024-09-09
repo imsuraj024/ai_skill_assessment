@@ -75,7 +75,6 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
 
         if (isLastQuestion) {
           final percentage = (correctAnswerCount / totalQuestionsCount) * 100;
-
           emit(MoveToResult(
               percentage, correctAnswerCount, totalQuestionsCount, level));
         } else {
