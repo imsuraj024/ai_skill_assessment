@@ -35,7 +35,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
-            'Skill Assessment',
+            'AI Skill Assessment',
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 20,
@@ -55,25 +55,25 @@ class _QuestionScreenState extends State<QuestionScreen> {
               bloc.add(GetQuestions(level: state.level));
             }
 
-            if (state is MoveToResult) {
-              if (state.level < 4) {
-                ResultScreenArguments args = ResultScreenArguments(
-                  percentage: state.percentage,
-                  correctAnswerCount: state.correctAnswerCount,
-                  totalQuestionsCount: state.totalQuestionsCount,
-                  level: state.level,
-                );
+            // if (state is MoveToResult) {
+            //   if (state.level < 4) {
+            //     ResultScreenArguments args = ResultScreenArguments(
+            //       percentage: state.percentage,
+            //       correctAnswerCount: state.correctAnswerCount,
+            //       totalQuestionsCount: state.totalQuestionsCount,
+            //       level: state.level,
+            //     );
 
-                final int result = await Navigator.pushNamed(
-                    context, AppRoutes.result,
-                    arguments: args) as int;
-                bloc.add(GetQuestions(level: result));
-              } else {
-                expertPercentage = state.percentage;
-                await Navigator.pushNamed(context, AppRoutes.finalResult);
-                bloc.add(const GetQuestions(level: 1));
-              }
-            }
+            //     final int result = await Navigator.pushNamed(
+            //         context, AppRoutes.result,
+            //         arguments: args) as int;
+            //     bloc.add(GetQuestions(level: result));
+            //   } else {
+            //     expertPercentage = state.percentage;
+            //     await Navigator.pushNamed(context, AppRoutes.finalResult);
+            //     bloc.add(const GetQuestions(level: 1));
+            //   }
+            // }
           },
           builder: (context, state) {
             if (state is QuestionLoadingState) {

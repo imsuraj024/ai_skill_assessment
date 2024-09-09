@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:ai_skill_assessment/utils/constant.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ai_skill_assessment/modules/question/data/model/question_model.dart';
@@ -14,7 +13,7 @@ part 'question_state.dart';
 
 class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   final QuestionUsecase questionUsecase;
-  int level = 0, totalQuestionsCount = 0, correctAnswerCount = 0;
+  int level = 1, totalQuestionsCount = 0, correctAnswerCount = 0;
 
   QuestionBloc(this.questionUsecase) : super(const AssesmentInitialState()) {
     on<GetQuestions>(_getQuestions);
@@ -26,8 +25,7 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
       GetQuestions event, Emitter<AssesmentState> emit) async {
     try {
       emit(const QuestionLoadingState());
-      level = event.level;
-      final questions = await _fetchQuestionsByLevel(level);
+      final questions = await _fetchQuestionsByLevel(event.level);
       totalQuestionsCount = questions.length;
       correctAnswerCount = 0;
       emit(QuestionLoadedState(
@@ -62,7 +60,7 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
 
       if (selectedAnswer == null) {
         _showToastMessage(
-          'Please select an answer for question ${currentState.currentQuestionIndex + 1}',
+          'Please select an answer for question #${currentState.currentQuestionIndex + 1}',
           ToastificationType.error,
         );
       } else {
@@ -74,9 +72,7 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
         );
 
         if (isLastQuestion) {
-          final percentage = (correctAnswerCount / totalQuestionsCount) * 100;
-          emit(MoveToResult(
-              percentage, correctAnswerCount, totalQuestionsCount, level));
+          _handleLevelProgression(emit);
         } else {
           emit(currentState.copyWith(
             currentQuestionIndex: currentState.currentQuestionIndex + 1,
@@ -108,6 +104,13 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
         ToastificationType.error,
       );
     }
+  }
+
+  void _handleLevelProgression(Emitter<AssesmentState> emit) {
+    if (level < 4) {
+      level++;
+      add(GetQuestions(level: level));
+    } else {}
   }
 
   bool _isLastQuestion(int currentIndex, int totalQuestions) {

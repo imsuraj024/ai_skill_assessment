@@ -1,9 +1,7 @@
-import 'package:ai_skill_assessment/modules/result/presentation/bloc/result_bloc.dart';
 import 'package:ai_skill_assessment/styles/app_assests.dart';
 import 'package:ai_skill_assessment/styles/app_colors.dart';
 import 'package:ai_skill_assessment/utils/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FinalResultScreen extends StatefulWidget {
@@ -29,7 +27,7 @@ class _FinalResultScreenState extends State<FinalResultScreen> {
         centerTitle: true,
         backgroundColor: appBlack,
         title: Text(
-          'Skill Assessment',
+          'AI Skill Assessment',
           style: TextStyle(
             fontWeight: FontWeight.w700,
             letterSpacing: 2.0,
