@@ -93,7 +93,6 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
 
     if (selectedAnswer == correctAnswer) {
       correctAnswerCount++;
-
       _showToastMessage(
         'Correct! Well done! 🎉 You’re on the right track',
         ToastificationType.success,
@@ -107,9 +106,24 @@ class QuestionBloc extends Bloc<QuestionEvent, AssesmentState> {
   }
 
   void _handleLevelProgression(Emitter<AssesmentState> emit) {
+    calculatePercentage(level);
     if (level < 4) {
       level++;
       add(GetQuestions(level: level));
+    } else {
+      emit(const AssesmentResultState());
+    }
+  }
+
+  void calculatePercentage(int level) {
+    if (level == 1) {
+      beginnerPercentage = (correctAnswerCount / totalQuestionsCount) * 100;
+    } else if (level == 2) {
+      intermediatePercentage = (correctAnswerCount / totalQuestionsCount) * 100;
+    } else if (level == 3) {
+      advancedPercentage = (correctAnswerCount / totalQuestionsCount) * 100;
+    } else if (level == 4) {
+      expertPercentage = (correctAnswerCount / totalQuestionsCount) * 100;
     } else {}
   }
 

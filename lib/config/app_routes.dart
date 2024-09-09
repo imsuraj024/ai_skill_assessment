@@ -1,4 +1,4 @@
-import 'package:ai_skill_assessment/modules/final_result/presentation/final_result_screen.dart';
+import 'package:ai_skill_assessment/modules/result/presentation/final_result_screen.dart';
 import 'package:ai_skill_assessment/modules/question/presentation/question_screen.dart';
 import 'package:ai_skill_assessment/modules/splash/presentation/splash_screen.dart';
 import 'package:equatable/equatable.dart';
